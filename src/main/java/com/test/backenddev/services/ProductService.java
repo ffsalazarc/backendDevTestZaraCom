@@ -2,6 +2,7 @@ package com.test.backenddev.services;
 
 import com.test.backenddev.client.SimilarProductsClient;
 import com.test.backenddev.model.Product;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ProductService {
     public ProductService(SimilarProductsClient similarProductsClient) {
         this.similarProductsClient = similarProductsClient;
     }
-
+    @Cacheable(value = "similarProductsCache", key = "#productId")
     public List<Product> getSimilarProducts(String productId) {
         return similarProductsClient.getSimilarProductIds(productId)
                 .stream()
